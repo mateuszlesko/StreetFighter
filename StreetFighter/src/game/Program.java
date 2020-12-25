@@ -4,17 +4,18 @@ import java.awt.EventQueue;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JProgressBar;
 import javax.swing.JPanel;
 import java.awt.Font;
 import java.io.File;
 import java.awt.Color;
+import game.helpers.SceneHelper;
+
 
 public class Program {
 
 	private JFrame frame;
-
+	private SceneHelper sceneHelper;
 	/**
 	 * Launch the application.
 	 */
@@ -35,6 +36,7 @@ public class Program {
 	 * Create the application.
 	 */
 	public Program() {
+		sceneHelper = new SceneHelper(0);
 		initialize();
 	}
 
@@ -71,16 +73,8 @@ public class Program {
 		lblTime.setBounds(305, 46, 46, 26);
 		frame.getContentPane().add(lblTime);
 		
-		JPanel scenePanel = new JPanel();
-		//scenePanel.setBackground(new Color(100, 149, 237));
-		scenePanel.setBounds(0, 94, 718, 307);
-		
-		ImageIcon backgroudScenePanel = new ImageIcon(new File("assets/graphics/arena/ryustage/ryustage.jpg").getAbsolutePath());
-		JLabel backgroundScene = new JLabel(backgroudScenePanel);
-		backgroundScene.setBounds(0,94,738,307);
-		
-		scenePanel.add(backgroundScene);
-		frame.getContentPane().add(scenePanel);
+		frame.getContentPane().add(sceneHelper.GetScene());
+
 		
 		JLabel lblRound = new JLabel("Round:");
 		lblRound.setFont(new Font("BankGothic Md BT", Font.BOLD, 16));
