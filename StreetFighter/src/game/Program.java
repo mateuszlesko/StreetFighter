@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.io.File;
 import java.awt.Color;
 import game.helpers.SceneHelper;
+import game.guiComponents.FighterDialog;
 
 
 public class Program {
@@ -45,7 +46,7 @@ public class Program {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 722, 440);
+		frame.setBounds(100, 100, 714, 440);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -74,7 +75,14 @@ public class Program {
 		frame.getContentPane().add(lblTime);
 		
 		frame.getContentPane().add(sceneHelper.GetScene());
-
+		
+		
+		FighterDialog fighterDialog = new FighterDialog();
+		fighterDialog.setBounds(0,301,706,100);
+		
+		
+		//frame.getContentPane().add(fighterDialog, 1);
+		
 		
 		JLabel lblRound = new JLabel("Round:");
 		lblRound.setFont(new Font("BankGothic Md BT", Font.BOLD, 16));
@@ -85,7 +93,6 @@ public class Program {
 		JLabel fighterMiniature = new JLabel(icon);
 		fighterMiniature.setBounds(100, 48, 96, 64);
 		frame.getContentPane().add(fighterMiniature);
-		
 		
 		JLabel opponentMiniature = new JLabel(icon);
 		opponentMiniature.setBounds(628, 48, 46, 44);
