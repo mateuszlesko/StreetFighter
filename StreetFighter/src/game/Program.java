@@ -1,19 +1,20 @@
 package game;
 
+import java.awt.image.BufferedImage;
 import java.awt.EventQueue;
+import java.awt.Color;
+import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.JPanel;
-import java.awt.Font;
 import java.io.File;
-import java.awt.Color;
 import game.helpers.SceneHelper;
 import game.guiComponents.FighterDialog;
 
 
-public class Program {
+public class Program{
 
 	private JFrame frame;
 	private SceneHelper sceneHelper;
@@ -45,7 +46,7 @@ public class Program {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("Street Fighter");
 		frame.setBounds(100, 100, 714, 440);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -74,7 +75,7 @@ public class Program {
 		lblTime.setBounds(305, 46, 46, 26);
 		frame.getContentPane().add(lblTime);
 		
-		frame.getContentPane().add(sceneHelper.GetScene());
+		//frame.getContentPane().add(sceneHelper.GetScene());
 		
 		
 		FighterDialog fighterDialog = new FighterDialog();
@@ -89,7 +90,7 @@ public class Program {
 		lblRound.setBounds(295, 21, 77, 14);
 		frame.getContentPane().add(lblRound);
 		
-		ImageIcon icon = new ImageIcon(new File("assets/graphics/ryu/sml_portrait__left.jpg").getAbsolutePath());
+		ImageIcon icon = new ImageIcon(new File("assets/graphics/character/ken/left/sml_portrait__left.jpg").getAbsolutePath());
 		JLabel fighterMiniature = new JLabel(icon);
 		fighterMiniature.setBounds(100, 48, 96, 64);
 		frame.getContentPane().add(fighterMiniature);

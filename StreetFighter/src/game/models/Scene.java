@@ -45,6 +45,7 @@ public class Scene extends JPanel {
 	
 	private static void FillHashMap() {
 		backgroundAssets.put("ryustage",new File("assets/graphics/arena/ryustage/ryustage.jpg").getAbsolutePath());
+		backgroundAssets.put("lasvegas", new File("assets/graphics/arena/lasvegas/lasvegas.gif").getAbsolutePath());
 	}
 	
 	private static String GetSceneBackground(String _name) {
