@@ -1,23 +1,19 @@
 package game;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
-
-import game.handlers.KeyControlsEventHandler;
 import game.states.StateManager;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 	
+	private static final long serialVersionUID = -678780521158129930L;
 	public static final int width = 320;
-	public static final int height = 260;
+	public static final int height = 200;
 	public static final int scale = 2;
 	
 	//watek gry
@@ -25,7 +21,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	//przechowuje stan gry
 	private boolean running;
 	private int fps = 60;
-	private long targetTime = 10000/fps; // wyrazony w ms
+	private long targetTime = 1000/fps; // wyrazony w ms
 	
 	//obraz
 	private BufferedImage buffer;
@@ -40,27 +36,36 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		setPreferredSize(new Dimension(width*scale,height*scale));
 		setFocusable(true);
 		requestFocus();
+		System.out.println("Constructor GamePanel");
 	}
-	
 	@Override
 	public void addNotify() {
 		super.addNotify();
-		if(gameThread.equals(null)) {
+		try {
+			if(gameThread == null) {
+					gameThread = new Thread(this);
+			addKeyListener(this);
+			gameThread.start();
+			}
+		
+		}catch(NullPointerException nullException) {
 			gameThread = new Thread(this);
 			addKeyListener(this);
 			gameThread.start();
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
 	public void initialize() {
+		System.out.println("init GamePanel");
 		buffer = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
-		graphics2d = (Graphics2D) graphics2d;
+		graphics2d = (Graphics2D) buffer.getGraphics();
 		running = true;
 		
 		stateManager = new StateManager();
 	}
-	
-	@Override 
+	@Override
 	public void run() {
 		initialize();
 		
@@ -80,26 +85,29 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			
 			elapsedTimer = System.nanoTime() - startTimer;
 			waitTimer = targetTime - elapsedTimer / 1000000; // w nano sekundach
+			if(waitTimer < 0)
+				waitTimer = 5;
 			
 			try {
 				Thread.sleep(waitTimer);
 			}catch(Exception e) {
 				e.printStackTrace(); // wyswietla miejsce wystapienia wyjatku na stosie rozkazow 
 			}
+			System.out.println("STATE MANGAGER END LOOP");
 		}
 	}
 	
-	@Override
+
 	public void keyPressed(KeyEvent keyEvent) {
 		stateManager.keyPressed(keyEvent.getKeyCode());
 	}
 	
-	@Override
+
 	public void keyReleased(KeyEvent keyEvent) {
 		stateManager.keyReleased(keyEvent.getKeyCode());
 	}
 	
-	@Override 
+
 	public void keyTyped(KeyEvent keyEvent) {
 		
 	}
@@ -112,8 +120,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	}
 	private void drawScreen() {
 		
-		Graphics graphics = getGraphics(); //metoda pochodza z klasy JComponent; dostepna dzieki dziedziczeniu
-		graphics.drawImage(buffer, 0, 0, null);
+		Graphics graphics = buffer.getGraphics(); //metoda pochodza z klasy JComponent; dostepna dzieki dziedziczeniu
+		graphics.drawImage(buffer, 0, 0, width*scale, height*scale, null);
 		graphics.dispose();
 	}
 }

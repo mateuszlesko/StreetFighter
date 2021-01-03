@@ -9,19 +9,22 @@ public class StateManager {
 	
 	
 	
-	private List<State> gameStatesList;
+	private ArrayList<State> gameStatesList;
 	private int currentState = 0 ; // indeks w liscie biezacego stanu
 	
 	// deklaracja indeksow dla poszczegolnych stanow
 	public static final int menuState = 0;
-	public static final int arena= 0;
+	public static final int arena= 1;
 	
 	public StateManager() {
+		System.out.println("STATE MANAGER CONSTRUCTOR");
 		gameStatesList = new ArrayList<State>();
+		currentState = menuState;
 		gameStatesList.add(new MenuState(this));
-		
+		System.out.println("Set state statemanager" );
 	}
 	public void setState(int numberState) {
+		System.out.println("Set state statemanager "+currentState);
 		currentState = numberState;
 		gameStatesList.get(currentState).initialize();
 	}
