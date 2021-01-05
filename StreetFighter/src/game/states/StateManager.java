@@ -15,6 +15,7 @@ public class StateManager {
 	// deklaracja indeksow dla poszczegolnych stanow
 	public static final int menuState = 0;
 	public static final int arena= 1;
+	public static final int xd =2;
 	
 	public StateManager() {
 		System.out.println("STATE MANAGER CONSTRUCTOR");
@@ -24,7 +25,7 @@ public class StateManager {
 		System.out.println("Set state statemanager" );
 	}
 	public void setState(int numberState) {
-		System.out.println("Set state statemanager "+currentState);
+		System.out.println(currentState);
 		currentState = numberState;
 		gameStatesList.get(currentState).initialize();
 	}
@@ -37,6 +38,8 @@ public class StateManager {
 	}
 	
 	public void keyPressed(int keyNumber) {
+		System.out.println("KeyPressed z StateManager "+currentState);
+		if(gameStatesList.get(currentState) != null)
 		gameStatesList.get(currentState).keyPressed(keyNumber);
 	}
 	

@@ -1,9 +1,11 @@
 package TileMap;
 
-import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
+//import java.awt.image.BufferStrategy;
+//import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
+
 
 import game.GamePanel;
 
@@ -14,7 +16,6 @@ public class BackgroundTheme {
 	
 	public BackgroundTheme(String source, int ms) {
 		try {
-			System.out.println("Resources:"+getClass().getResource(source));
 			bufferImage = ImageIO.read(getClass().getResourceAsStream(source));
 		}
 		catch(Exception e) {
@@ -29,17 +30,16 @@ public class BackgroundTheme {
 	}
 	
 	public void setVector(double _dx, double _dy) {
-		dx = _dx;
-		dy = _dy;
+		dx = (_dx * moveScale) % GamePanel.width;
+		dy = (_dy * moveScale) % GamePanel.height;
 	}
 	
 	public void update() {
+		System.out.println("update from BackgroundTheme");
 		x+=dx;
 		y+=dy;
 	}
 	public void draw(Graphics2D _graphic) {
-		if(_graphic == null)
-		System.out.println("Draw method from background");
 		_graphic.drawImage(bufferImage, (int)x, (int)y, null);
 		if(x < 0) {
 			_graphic.drawImage(bufferImage,(int)x + GamePanel.width,(int)y,null);

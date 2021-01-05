@@ -19,9 +19,8 @@ public class MenuState extends State{
 	private Font regularFont;
 	
 	public MenuState(StateManager _stateManager) {
-		System.out.println("CONSTRUCTOR MenuState");
+		System.out.println("CONSTRUCTOR MenuState; length of choices "+choiceOptions.length);
 		stateManager = _stateManager; //refencja do tego samego obiektu zarzadcy stanu, ktory jest uzywany
-		
 		try {
 			background = new BackgroundTheme("/assets/graphics/menu/menuTheme.png",1);
 			background.setVector(-0.1, 0);
@@ -65,6 +64,7 @@ public class MenuState extends State{
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
+		System.out.println("update from menustate");
 		background.update();
 	}
 
@@ -72,13 +72,21 @@ public class MenuState extends State{
 	public void keyPressed(int keyNumber) {
 		// TODO Auto-generated method stub
 		if(keyNumber == KeyEvent.VK_ENTER) {
+			System.out.println(currentChoice);
+			System.out.println("ENTER");
 			selectOption();
 		}
-		if(keyNumber == KeyEvent.VK_UP && currentChoice > 0) {
-			currentChoice--;
+		if(keyNumber == KeyEvent.VK_UP) {
+			if(currentChoice > 0)
+				currentChoice--;
+			else
+				currentChoice = choiceOptions.length;
 		}
-		if(keyNumber == KeyEvent.VK_DOWN && currentChoice <= 2) {
-			currentChoice++;
+		if(keyNumber == KeyEvent.VK_DOWN) {
+			if(currentChoice <= 2)
+				currentChoice++;
+			else
+				currentChoice = 0;
 		}
 	}
 
@@ -91,13 +99,13 @@ public class MenuState extends State{
 	private void selectOption() {
 		switch(currentChoice) {
 			case 0:
-				//start fight
+				stateManager.setState(0);
 				break;
 			case 1:
-				//go to credits
+				//stateManager.setState(1);
 				break;
 			case 2:
-				//quit the game
+				//stateManager.setState(2);
 				break;
 			default:
 				break;
