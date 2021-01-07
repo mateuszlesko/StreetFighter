@@ -10,22 +10,24 @@ public class StateManager {
 	
 	
 	private ArrayList<State> gameStatesList;
-	private int currentState = 0 ; // indeks w liscie biezacego stanu
+	private int currentState = 1 ; // indeks w liscie biezacego stanu
 	
 	// deklaracja indeksow dla poszczegolnych stanow
 	public static final int menuState = 0;
-	public static final int arena= 1;
-	public static final int xd =2;
+	public static final int arenaState= 1;
+	public static final int helpState = 2;
+	public static final int creditsState = 3; 
+	public static final int quitState = 4;
 	
 	public StateManager() {
-		System.out.println("STATE MANAGER CONSTRUCTOR");
 		gameStatesList = new ArrayList<State>();
 		currentState = menuState;
 		gameStatesList.add(new MenuState(this));
-		System.out.println("Set state statemanager" );
+		gameStatesList.add(new FightArenaState(this));
+		gameStatesList.add(null);
+		gameStatesList.add(new CreditsState(this));
 	}
 	public void setState(int numberState) {
-		System.out.println(currentState);
 		currentState = numberState;
 		gameStatesList.get(currentState).initialize();
 	}
@@ -38,9 +40,8 @@ public class StateManager {
 	}
 	
 	public void keyPressed(int keyNumber) {
-		System.out.println("KeyPressed z StateManager "+currentState);
 		if(gameStatesList.get(currentState) != null)
-		gameStatesList.get(currentState).keyPressed(keyNumber);
+			gameStatesList.get(currentState).keyPressed(keyNumber);
 	}
 	
 	public void keyReleased(int keyNumber) {

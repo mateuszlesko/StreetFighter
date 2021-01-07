@@ -12,8 +12,8 @@ import game.states.StateManager;
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 	
 	private static final long serialVersionUID = -678780521158129930L;
-	public static final int width = 320;
-	public static final int height = 240;
+	public static final int width = 340;//320;
+	public static final int height = 280;//240;
 	public static final int scale = 2;
 	
 	//watek gry
@@ -82,19 +82,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			}catch(Exception e) {
 				e.printStackTrace(); // wyswietla miejsce wystapienia wyjatku na stosie rozkazow 
 			}
-			//System.out.println("STATE MANGAGER END LOOP");
+			
 		}
 	}
 	
 
 	public void keyPressed(KeyEvent keyEvent) {
 		try {
-		System.out.println(keyEvent.getKeyCode());
 		stateManager.keyPressed(keyEvent.getKeyCode());
 		}
 		catch(Exception e) {
-			System.out.println("TUTAJ WYJATEK");
-			
+			e.printStackTrace();
 		}
 	}
 	
@@ -115,7 +113,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		stateManager.draw(graphics2d);
 	}
 	private void drawScreen() {
-		System.out.println("Draw screen from GamePanel");
 		Graphics graphics = getGraphics(); //metoda pochodza z klasy JComponent; dostepna dzieki dziedziczeniu
 		graphics.drawImage(buffer, 0, 0, width*scale, height*scale, null);
 		graphics.dispose();

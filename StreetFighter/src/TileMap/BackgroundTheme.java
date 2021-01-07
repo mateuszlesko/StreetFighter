@@ -35,7 +35,6 @@ public class BackgroundTheme {
 	}
 	
 	public void update() {
-		System.out.println("update from BackgroundTheme");
 		x+=dx;
 		y+=dy;
 	}

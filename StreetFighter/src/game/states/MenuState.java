@@ -3,6 +3,8 @@ package game.states;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JOptionPane;
+
 import TileMap.BackgroundTheme;
 import java.awt.Color;
 import java.awt.Font;
@@ -10,16 +12,17 @@ public class MenuState extends State{
 	
 	private BackgroundTheme background;
 	private static final String[] choiceOptions = {
+			"",
 			"Start Fight",
+			"Help",
 			"Credits",
 			"Exit"
 	};
-	private int currentChoice = 0; //indeks obecnej opcji
+	private int currentChoice = 1; //indeks obecnej opcji
 	private Color regularColor;
 	private Font regularFont;
 	
 	public MenuState(StateManager _stateManager) {
-		System.out.println("CONSTRUCTOR MenuState; length of choices "+choiceOptions.length);
 		stateManager = _stateManager; //refencja do tego samego obiektu zarzadcy stanu, ktory jest uzywany
 		try {
 			background = new BackgroundTheme("/assets/graphics/menu/menuTheme.png",1);
@@ -41,8 +44,7 @@ public class MenuState extends State{
 
 	@Override
 	public void draw(Graphics2D graphic) {
-		System.out.println("draw from MenuState");
-		// TODO Auto-generated method stub
+
 		background.draw(graphic);
 		
 		//drawing menu choice options
@@ -63,30 +65,30 @@ public class MenuState extends State{
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
+	
 		System.out.println("update from menustate");
 		background.update();
 	}
 
 	@Override
 	public void keyPressed(int keyNumber) {
-		// TODO Auto-generated method stub
+	
 		if(keyNumber == KeyEvent.VK_ENTER) {
-			System.out.println(currentChoice);
+			System.out.println("currentChoice "+currentChoice);
 			System.out.println("ENTER");
 			selectOption();
 		}
 		if(keyNumber == KeyEvent.VK_UP) {
-			if(currentChoice > 0)
+			if(currentChoice > 1)
 				currentChoice--;
 			else
 				currentChoice = choiceOptions.length;
 		}
 		if(keyNumber == KeyEvent.VK_DOWN) {
-			if(currentChoice <= 2)
+			if(currentChoice <= 4)
 				currentChoice++;
 			else
-				currentChoice = 0;
+				currentChoice = 1;
 		}
 	}
 
@@ -99,13 +101,17 @@ public class MenuState extends State{
 	private void selectOption() {
 		switch(currentChoice) {
 			case 0:
-				stateManager.setState(0);
 				break;
 			case 1:
-				//stateManager.setState(1);
+				stateManager.setState(StateManager.arenaState);
 				break;
 			case 2:
-				//stateManager.setState(2);
+				break;
+			case 3:
+				stateManager.setState(StateManager.creditsState);
+				break;
+			case 4:
+				System.exit(0);
 				break;
 			default:
 				break;

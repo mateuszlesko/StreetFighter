@@ -1,2 +1,5 @@
 .metadata/
 .project
+StreetFighter/src/game/handlers/ContentHandler.java
+StreetFighter/src/assets/graphics/characters/ryu/left/ryuSprites.png
+StreetFighter/src/assets/graphics/characters/ryu/right/ryuSprites.png
