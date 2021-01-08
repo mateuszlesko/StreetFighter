@@ -15,8 +15,8 @@ public class CreditsState extends State{
 	public CreditsState(StateManager _stateManager) {
 		stateManager = _stateManager; //refencja do tego samego obiektu zarzadcy stanu, ktory jest uzywany
 		try {
-			background = new BackgroundTheme("/assets/graphics/menu/menuTheme.png",1);
-			background.setVector(-0.1, 0);
+			background = new BackgroundTheme("/assets/graphics/backgrounds/menuTheme.png",1);
+			background.setVector(-0.1,0);
 			regularColor = new Color(252, 244, 5);
 			regularFont = new Font("Arial",Font.PLAIN,12);
 			
@@ -40,7 +40,7 @@ public class CreditsState extends State{
 		graphic.setColor(regularColor);
 		graphic.setFont(regularFont);
 		graphic.drawString("All rights for logos, graphics,", 45, 140);
-		graphic.drawString("characters have owned \n to Capcome Company", 45, 160);
+		graphic.drawString("characters have owned by Capcome Company", 45, 160);
 		graphic.drawString("Credits: Mateusz Leœko", 45, 180);
 		graphic.drawString("link to source: ", 45, 200);
 		graphic.drawString("github.com/mateuszlesko/StreetFighter", 45, 220);
@@ -48,7 +48,7 @@ public class CreditsState extends State{
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
+		background.update();
 	}
 
 	@Override

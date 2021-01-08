@@ -1,7 +1,5 @@
 package TileMap;
 
-//import java.awt.image.BufferStrategy;
-//import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
@@ -46,5 +44,8 @@ public class BackgroundTheme {
 		if(x > 0) {
 			_graphic.drawImage(bufferImage, (int)x - GamePanel.width, (int)y, null);
 		}
+	}
+	public BufferedImage getBufferedImage() {
+		return bufferImage;
 	}
 }

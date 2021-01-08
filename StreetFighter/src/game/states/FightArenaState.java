@@ -1,7 +1,7 @@
 package game.states;
 
 import java.awt.Graphics2D;
-
+import game.models.Player;
 import TileMap.BackgroundTheme;
 
 public class FightArenaState extends State {
@@ -9,12 +9,13 @@ public class FightArenaState extends State {
 	
 	//private TileMap tileMap;
 	private BackgroundTheme background;
-	
+	private Player player1;
 	public FightArenaState(StateManager _stateManager) {
 		System.out.println("FIGHT ARENA");
 		stateManager = _stateManager;
 		background = new BackgroundTheme("/assets/graphics/arena/ryustage/ryustage.jpg",1);
 		background.setPosition(40/2,15/2);
+		player1 = new Player();
 	}
 	@Override
 	public void initialize() {

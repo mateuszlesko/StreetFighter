@@ -1,6 +1,7 @@
 package game.states;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JOptionPane;
@@ -25,8 +26,9 @@ public class MenuState extends State{
 	public MenuState(StateManager _stateManager) {
 		stateManager = _stateManager; //refencja do tego samego obiektu zarzadcy stanu, ktory jest uzywany
 		try {
-			background = new BackgroundTheme("/assets/graphics/menu/menuTheme.png",1);
+			background = new BackgroundTheme("/assets/graphics/backgrounds/menuTheme.png",1);
 			background.setVector(-0.1, 0);
+			background.setPosition(-20, 0);
 			regularColor = new Color(252, 244, 5);
 			regularFont = new Font("Arial",Font.PLAIN,16);
 			
@@ -44,10 +46,9 @@ public class MenuState extends State{
 
 	@Override
 	public void draw(Graphics2D graphic) {
-
+		//graphic.drawImage(new Image(), currentChoice, currentChoice, regularColor, null);
 		background.draw(graphic);
 		
-		//drawing menu choice options
 		graphic.setColor(regularColor);
 		graphic.setFont(regularFont);
 		
@@ -65,8 +66,6 @@ public class MenuState extends State{
 
 	@Override
 	public void update() {
-	
-		System.out.println("update from menustate");
 		background.update();
 	}
 
@@ -74,8 +73,6 @@ public class MenuState extends State{
 	public void keyPressed(int keyNumber) {
 	
 		if(keyNumber == KeyEvent.VK_ENTER) {
-			System.out.println("currentChoice "+currentChoice);
-			System.out.println("ENTER");
 			selectOption();
 		}
 		if(keyNumber == KeyEvent.VK_UP) {

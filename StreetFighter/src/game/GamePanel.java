@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import game.states.StateManager;
@@ -12,7 +14,7 @@ import game.states.StateManager;
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 	
 	private static final long serialVersionUID = -678780521158129930L;
-	public static final int width = 340;//320;
+	public static final int width = 380;//320;
 	public static final int height = 280;//240;
 	public static final int scale = 2;
 	
@@ -57,7 +59,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	@Override
 	public void run() {
 		initialize();
-		
 		long startTimer;
 		long elapsedTimer;
 		long waitTimer;
@@ -66,14 +67,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		while(running) {
 			
 			startTimer = System.nanoTime(); //zwraca czas uruchomienia JVM
-			
-			
 			update();
 			draw();
 			drawScreen();
-			
 			elapsedTimer = System.nanoTime() - startTimer;
 			waitTimer = targetTime - elapsedTimer / 1000000; // w nano sekundach
+			
 			if(waitTimer < 0)
 				waitTimer = 5;
 			

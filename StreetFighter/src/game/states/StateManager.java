@@ -23,7 +23,8 @@ public class StateManager {
 		gameStatesList = new ArrayList<State>();
 		currentState = menuState;
 		gameStatesList.add(new MenuState(this));
-		gameStatesList.add(new FightArenaState(this));
+		gameStatesList.add(new CharacterSelectionState(this));
+		//gameStatesList.add(new FightArenaState(this));
 		gameStatesList.add(null);
 		gameStatesList.add(new CreditsState(this));
 	}
