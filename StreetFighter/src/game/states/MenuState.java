@@ -70,8 +70,8 @@ public class MenuState extends State{
 	}
 
 	@Override
-	public void keyPressed(int keyNumber) {
-	
+	public void keyPressed(KeyEvent key) {
+		int keyNumber = key.getKeyCode();
 		if(keyNumber == KeyEvent.VK_ENTER) {
 			selectOption();
 		}
@@ -90,8 +90,13 @@ public class MenuState extends State{
 	}
 
 	@Override
-	public void keyReleased(int keyNumber) {
+	public void keyReleased(KeyEvent key) {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void keyTyped(KeyEvent key) {
 		
 	}
 	

@@ -1,6 +1,8 @@
 package game.states;
 
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+
 import game.models.Player;
 import TileMap.BackgroundTheme;
 
@@ -11,7 +13,6 @@ public class FightArenaState extends State {
 	private BackgroundTheme background;
 	private Player player1;
 	public FightArenaState(StateManager _stateManager) {
-		System.out.println("FIGHT ARENA");
 		stateManager = _stateManager;
 		background = new BackgroundTheme("/assets/graphics/arena/ryustage/ryustage.jpg",1);
 		background.setPosition(40/2,15/2);
@@ -37,14 +38,19 @@ public class FightArenaState extends State {
 	}
 
 	@Override
-	public void keyPressed(int keyNumber) {
+	public void keyPressed(KeyEvent key) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void keyReleased(int keyNumber) {
+	public void keyReleased(KeyEvent key) {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void keyTyped(KeyEvent key) {
 		
 	}
 

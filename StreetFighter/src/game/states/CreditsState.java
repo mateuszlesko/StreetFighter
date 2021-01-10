@@ -52,16 +52,21 @@ public class CreditsState extends State{
 	}
 
 	@Override
-	public void keyPressed(int keyNumber) {
+	public void keyPressed(KeyEvent key) {
 	
-		if(keyNumber == KeyEvent.VK_ENTER) {
+		if(key.getKeyCode() == KeyEvent.VK_ENTER) {
 			stateManager.setState(0);
 			
 		}
 	}
+	
+	@Override
+	public void keyTyped(KeyEvent key) {
+		
+	}
 
 	@Override
-	public void keyReleased(int keyNumber) {
+	public void keyReleased(KeyEvent key) {
 		// TODO Auto-generated method stub
 	}
 	
