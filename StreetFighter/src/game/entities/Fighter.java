@@ -1,13 +1,13 @@
-package game.models;
+package game.entities;
 
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
-public class Character {
+public class Fighter {
 	private String name = "Ryu";
 	
 	
-	public Character(String _name) {
+	public Fighter(String _name) {
 		name = _name;
 	
 	}

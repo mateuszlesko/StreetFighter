@@ -1,4 +1,4 @@
-package game.models;
+package game.entities;
 
 public class ObjectMap {
 

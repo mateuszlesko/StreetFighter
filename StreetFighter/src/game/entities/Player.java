@@ -1,4 +1,4 @@
-package game.models;
+package game.entities;
 
 import java.util.ArrayList;
 import java.awt.Graphics2D;
@@ -49,7 +49,7 @@ public class Player {
 	
 	//przechowywanie i ustalenie rozmiaru grafik dla postaci
 	
-	private Character character;
+	private Fighter character;
 	
 	public Player() {
 		

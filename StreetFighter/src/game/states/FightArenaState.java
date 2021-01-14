@@ -3,8 +3,8 @@ package game.states;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
-import game.models.Player;
 import TileMap.BackgroundTheme;
+import game.entities.Player;
 
 public class FightArenaState extends State {
 	
