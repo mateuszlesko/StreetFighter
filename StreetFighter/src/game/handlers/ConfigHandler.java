@@ -1,70 +1,94 @@
 package game.handlers;
 
-import org.w3c.dom.*;
-import javax.xml.parsers.*;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import java.io.*;
 import java.util.HashMap;
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 
 import game.entities.Fighter;
 
 public class ConfigHandler{
 	
-	
-	//https://www.tutorialspoint.com/java_xml/java_dom_create_document.htm
-	//https://www.w3schools.com/java/java_hashmap.asp
-	
-	private static boolean configCreated = false;
-	private static DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	
-	public void buildConfig(HashMap<String,Fighter> source) {
+	private final String path = "gameConfig.txt";
+	private static boolean exist = false;
+	private void buildConfig() {
 		try {
-			System.out.println("tworze config");
-			//creating structure of xml config file
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.newDocument();
-			Element root = document.createElement("fight");
-			document.appendChild(root);
+			File configFile = new File(path);
+			configFile.createNewFile();
+			exist = true;
+		}catch(IOException ioException) {
+			ioException.printStackTrace();
+		}
+		
+	}
+	
+	public HashMap<String, Fighter> readConfig(){
+		HashMap<String,Fighter> hashMap = new HashMap<String,Fighter>();
+		Fighter fighters [] = new Fighter[2];
+		try {
+			if(exist != true)
+				throw new FileNotFoundException();
 			
-			//player1
-			Element player1 = document.createElement("player1");
-			Attr playerAttr = document.createAttribute("type");
-			playerAttr.setValue("fighter");
-			player1.setAttributeNode(playerAttr);
-			player1.appendChild(document.createTextNode(source.get("player1").getName()));
-			root.appendChild(player1);
+			int index = 0;
+			File configFile = new File(path);
+			Scanner reader = new Scanner(configFile);
+			while(reader.hasNextLine() && index < fighters.length) {
+				fighters[index] = new Fighter(reader.nextLine());
+			}
+			reader.close();
+			hashMap.put("player1", fighters[0]);
+			hashMap.put("player2", fighters[1]);
+		}
+		catch(FileNotFoundException e) {
+			buildConfig();
+			readConfig();
 			
-			//player2
-			Element player2 = document.createElement("player2");
-			player2.setAttributeNode(playerAttr);
-			player2.appendChild(document.createTextNode(source.get("player2").getName()));
-			root.appendChild(player2);
+		}
+		catch(Exception e) {
+			return null;
+		}
+		
+		return hashMap;
+	}
+	
+	public void writeToConfig(HashMap<String,Fighter> source) {
+		try {
+			if(exist != true)
+				throw new IOException();
 			
-			//writing the content to xml file
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			Transformer transformer = transformerFactory.newTransformer();
-			
-			DOMSource domSource = new DOMSource(document);
-			StreamResult streamResult = new StreamResult(new File(getClass().getResourceAsStream("assets/config/gameConfig.xml").toString()));
-			transformer.transform(domSource, streamResult);
-			
-			configCreated = true;
-			StreamResult consoleResult = new StreamResult(System.out);
-	        transformer.transform(domSource, consoleResult);
-			
-		}catch(Exception e) {
-			e.printStackTrace();
+			if(isEmpty()) {
+				FileWriter fileWriter = new FileWriter(path);
+				fileWriter.write(source.get("player1")+"\n");
+				fileWriter.write(source.get("player2")+"\n");
+				fileWriter.close();
+			}
+			else {
+				clearConfig();
+				writeToConfig(source);
+			}
+		}catch(IOException ioException) {
+			buildConfig();
+			writeToConfig(source);
 		}
 	}
 	
-	public static boolean getConfigCreated() {
-		return configCreated;
+	private boolean isEmpty() throws FileNotFoundException {
+		File configFile = new File(path);
+		Scanner reader = new Scanner(configFile);
+		return reader.hasNext();
 	}
 	
-	
+	private void clearConfig() {
+		try {
+			FileWriter fileWriter = new FileWriter(path);
+			fileWriter.write("");
+			fileWriter.close();		
+		}catch(Exception ioException) {
+			ioException.printStackTrace();
+		}
+	}
 	
 }

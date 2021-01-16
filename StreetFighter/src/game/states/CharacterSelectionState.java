@@ -37,9 +37,10 @@ public class CharacterSelectionState extends State{
 	private static boolean player2Chose = false;
 	
 	//przechowywanie wybranej postaci
-	Vector<Integer,Integer> player1;
-	Vector<Integer,Integer> player2;
+	private Vector<Integer,Integer> player1;
+	private Vector<Integer,Integer> player2;
 	
+	private static boolean noMoreLoad = false;
 	public CharacterSelectionState(StateManager _stateManager) {
 		stateManager = _stateManager; //refencja do tego samego obiektu zarzadcy stanu, ktory jest uzywany
 		fillTable();
@@ -101,11 +102,13 @@ public class CharacterSelectionState extends State{
 			selectOptionPlayer2(key.getKeyCode());
 		}
 
-		if(player1Chose && player2Chose) {
+		if(player1Chose && player2Chose && !noMoreLoad) {
+			
+			noMoreLoad = true;
 			HashMap<String,Fighter> fighters = new HashMap<String,Fighter>();
 			fighters.put("player1", characters[player1.getY()][player1.getX()]);
 			fighters.put("player2", characters[player2.getY()][player2.getX()]);
-			new ConfigHandler().buildConfig(fighters);
+			new ConfigHandler().writeToConfig(fighters);
 			stateManager.setState(2);
 		}
 	}
