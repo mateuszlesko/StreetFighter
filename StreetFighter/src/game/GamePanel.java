@@ -21,7 +21,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	//watek gry
 	private Thread gameThread;
 	//przechowuje stan gry
-	private boolean running;
+	public static boolean running;
 	private int fps = 60;
 	private long targetTime = 1000/fps; // wyrazony w ms
 	
@@ -88,7 +88,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 	public void keyPressed(KeyEvent keyEvent) {
 		try {
-		stateManager.keyPressed(keyEvent.getKeyCode());
+		stateManager.keyPressed(keyEvent);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -97,7 +97,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	
 
 	public void keyReleased(KeyEvent keyEvent) {
-		stateManager.keyReleased(keyEvent.getKeyCode());
+		stateManager.keyReleased(keyEvent);
 	}
 	
 

@@ -12,35 +12,38 @@ import javax.swing.JOptionPane;
 import TileMap.BackgroundTheme;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 
-import game.models.Character;
+import game.entities.Fighter;
 import game.entities.Vector;
+import game.handlers.ConfigHandler;
 
 public class CharacterSelectionState extends State{
 
 	private BackgroundTheme background;
 	private BufferedImage imageBuffer;
-	
-	private BufferedImage portraitPlayer1,portraitPlayer2;
-	private Character character1, character2;
+	private BufferedImage characterP1;
+	private BufferedImage characterP2;
 	
 	private Color regularColor;
 	private Font regularFont;
 	
-	private static Character[][] characters = new Character[4][4];
+	private static Fighter[][] characters = new Fighter[4][4];
 	private static int column = 0;
 	private static int row = 0;
 	
-	private boolean player1Chose = false;
-	private boolean player2Chose = false;
+	private static boolean player1Chose = false;
+	private static boolean player2Chose = false;
 	
 	//przechowywanie wybranej postaci
-	Vector<Integer,Integer> player1;
-	Vector<Integer,Integer> player2;
+	private Vector<Integer,Integer> player1;
+	private Vector<Integer,Integer> player2;
 	
+	private static boolean noMoreLoad = false;
 	public CharacterSelectionState(StateManager _stateManager) {
 		stateManager = _stateManager; //refencja do tego samego obiektu zarzadcy stanu, ktory jest uzywany
-		fillTable() ;
+		fillTable();
 		player1 = new Vector(column,row);
 		player2 = new Vector(column,row);
 		try {
@@ -48,6 +51,10 @@ public class CharacterSelectionState extends State{
 			background.setPosition(0,0);
 			regularColor = new Color(252, 244, 5);
 			regularFont = new Font("Arial",Font.PLAIN,24);
+			
+			characterP1 =setPortrait(characters[column][row]);
+			characterP2 =setPortrait(characters[column][row]);
+		
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -62,7 +69,6 @@ public class CharacterSelectionState extends State{
 
 	@Override
 	public void draw(Graphics2D graphic) {
-
 		background.draw(graphic);
 		
 		graphic.drawString("P1:"+characters[player1.getY()][player1.getX()].getName(), 42, 40);
@@ -72,15 +78,8 @@ public class CharacterSelectionState extends State{
 		imageBuffer = ImageIO.read(getClass().getResourceAsStream("/assets/graphics/characters/portraits/portraits.png"));
 		graphic.drawImage(imageBuffer,68, 0, null);
 		
-		character1 = characters[player1.getY()][player1.getX()]; 
-		//character1.setPath();
-		character2 = characters[player2.getY()][player2.getX()];
-		//character2.setPath();
-		//portraitPlayer1 = ImageIO.read(getClass().getResourceAsStream(character1.getPath()));
-	//	portraitPlayer1 = ImageIO.read(getClass().getResourceAsStream(character2.getPath()));
-//		
-		//graphic.drawImage(portraitPlayer1, 20, 10,null);
-//		graphic.drawImage(portraitPlayer2, 0, 0,null);
+		graphic.drawImage(characterP1, 0, 80, null);
+		graphic.drawImage(characterP2, 286, 80, null);
 		
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -93,31 +92,37 @@ public class CharacterSelectionState extends State{
 	}
 
 	@Override
-	public void keyPressed(int keyNumber) {
+	public void keyPressed( KeyEvent key) {
 	
 		if(player1Chose == false && player2Chose == false) {
-			selectOptionPlayer1(keyNumber);
+			selectOptionPlayer1(key.getKeyCode());
 		}
 		
-		player2Chose = false;
-		
-		if(player1Chose == true && player2Chose == false) {
-			selectOptionPlayer2(keyNumber);
+		if(player2Chose == false && player1Chose == true) {
+			selectOptionPlayer2(key.getKeyCode());
 		}
-		
+
 		if(player1Chose && player2Chose) {
-			//stateManager.setState(2);
+			noMoreLoad = true;
+			HashMap<String,Fighter> fighters = new HashMap<String,Fighter>();
+			fighters.put("player1", characters[player1.getY()][player1.getX()]);
+			fighters.put("player2", characters[player2.getY()][player2.getX()]);
+			new ConfigHandler().writeToConfig(fighters);
+			stateManager.setState(4);
 		}
 	}
 
 	@Override
-	public void keyReleased(int keyNumber) {
-		// TODO Auto-generated method stub
+	public void keyReleased(KeyEvent key) {
+		
+	}
+	
+	@Override
+	public void keyTyped(KeyEvent key) {
 		
 	}
 	
 	private void selectOptionPlayer1(int keyNumber) {
-		
 	
 		if(keyNumber == KeyEvent.VK_W) {
 			if(column > 0)
@@ -127,7 +132,7 @@ public class CharacterSelectionState extends State{
 		}
 		
 		if(keyNumber == KeyEvent.VK_S) {
-			if(column < 4)
+			if(column < 3)
 				column++;
 			else
 				column = 0;
@@ -141,22 +146,22 @@ public class CharacterSelectionState extends State{
 		}
 		
 		if(keyNumber == KeyEvent.VK_D) {
-			if(row < 4)
+			if(row < 3)
 				row++;
 			else
 				row = 0;
 		}
 		
-		if(keyNumber == KeyEvent.VK_ENTER) {
-			
+		if(keyNumber == KeyEvent.VK_G) {
 			player1Chose = true;
+			characterP1 = setPortrait(characters[column][row]);
 			row = 0;
 			column = 0;
 			return;
 		}
-		
 		player1.setX(row);
 		player1.setY(column);
+		characterP1 =setPortrait(characters[column][row]);
 	}
 	
 	private void selectOptionPlayer2(int keyNumber) {
@@ -168,7 +173,7 @@ public class CharacterSelectionState extends State{
 		}
 		
 		if(keyNumber == KeyEvent.VK_DOWN) {
-			if(column < 4)
+			if(column < 3)
 				column++;
 			else
 				column = 0;
@@ -182,41 +187,57 @@ public class CharacterSelectionState extends State{
 		}
 		
 		if(keyNumber == KeyEvent.VK_RIGHT) {
-			if(row < 4)
+			if(row < 3)
 				row++;
 			else
 				row = 0;
 			
 		}
 		
-		if(keyNumber == KeyEvent.VK_ENTER) {
+		if(keyNumber == KeyEvent.VK_NUMPAD1) {
 			player2Chose = true;
 			row = 0;
 			column = 0;
 			return;
-		
 		}
+		
 		player2.setX(row);
 		player2.setY(column);
+		characterP2 =setPortrait(characters[column][row]);
 	}
 	
 	private static void fillTable() {
-		characters[0][0] = new Character("Ryu");
-		characters[0][1] = new Character("Ehonda");
-		characters[0][2] = new Character("Blanka");
-		characters[0][3] = new Character("Guile");
-		characters[1][0] = new Character("Thawk");
-		characters[1][1] = new Character("FeiLong");
-		characters[1][2] = new Character("DeeJay");
-		characters[1][3] = new Character("Cammy");
-		characters[2][0] = new Character("Balrog");
-		characters[2][1] = new Character("Vega");
-		characters[2][2] = new Character("Sagat");
-		characters[2][3] = new Character("Mbilson");
-		characters[3][0] = new Character("Ken");
-		characters[3][1] = new Character("ChunLi");
-		characters[3][2] = new Character("Zangief");
-		characters[3][3] = new Character("Dhalsim");
+		characters[0][0] = new Fighter("Ryu");
+		characters[0][1] = new Fighter("Ehonda");
+		characters[0][2] = new Fighter("Blanka");
+		characters[0][3] = new Fighter("Guile");
+		characters[1][0] = new Fighter("Thawk");
+		characters[1][1] = new Fighter("FeiLong");
+		characters[1][2] = new Fighter("DeeJay");
+		characters[1][3] = new Fighter("Cammy");
+		characters[2][0] = new Fighter("Balrog");
+		characters[2][1] = new Fighter("Vega");
+		characters[2][2] = new Fighter("Sagat");
+		characters[2][3] = new Fighter("Mbison");
+		characters[3][0] = new Fighter("Ken");
+		characters[3][1] = new Fighter("ChunLi");
+		characters[3][2] = new Fighter("Zangief");
+		characters[3][3] = new Fighter("Dhalsim");
+	}
+	
+	private BufferedImage setPortrait(Fighter character) {
+		BufferedImage portrait = null;
+		try {
+			portrait = ImageIO.read(getClass().getResourceAsStream("/assets/graphics/characters/"+character.toString()+"/portrait.png"));
+		}
+		catch(java.lang.IllegalArgumentException illegalException) {
+			//portrait = ImageIO.read(getClass().getResourceAsStream("/assets/graphics/characters/ryu/portrait.png"));
+			illegalException.printStackTrace();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return portrait;
 	}
 
 }

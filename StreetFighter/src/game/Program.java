@@ -13,6 +13,14 @@ public class Program{
 	 */
 	public static void main(String[] args) {
 		JFrame gameWindow = new JFrame("StreetFighter");
+		
+		gameWindow.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		        gamePanel.running = false;
+		    }
+		});
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
