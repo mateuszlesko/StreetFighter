@@ -9,10 +9,11 @@ import java.io.IOException;
 
 
 import game.entities.Fighter;
+import game.handlers.interfaces.IConfigHandler;
 
-public class ConfigHandler{
+public class ConfigHandler implements  IConfigHandler{
 	
-	private final String path = "gameConfig.txt";
+	private final static String path = "gameConfig.txt";
 	private static boolean exist = false;
 	private void buildConfig() {
 		try {
@@ -27,7 +28,7 @@ public class ConfigHandler{
 	
 	public HashMap<String, Fighter> readConfig(){
 		HashMap<String,Fighter> hashMap = new HashMap<String,Fighter>();
-		Fighter fighters [] = new Fighter[2];
+		Fighter fighters [] = new Fighter[3];
 		try {
 			if(exist != true)
 				throw new FileNotFoundException();
@@ -35,8 +36,9 @@ public class ConfigHandler{
 			int index = 0;
 			File configFile = new File(path);
 			Scanner reader = new Scanner(configFile);
-			while(reader.hasNextLine() && index < fighters.length) {
+			while(reader.hasNextLine()) {
 				fighters[index] = new Fighter(reader.nextLine());
+				index++;
 			}
 			reader.close();
 			hashMap.put("player1", fighters[0]);
@@ -48,6 +50,7 @@ public class ConfigHandler{
 			
 		}
 		catch(Exception e) {
+			System.out.println("WYJATEK");
 			return null;
 		}
 		

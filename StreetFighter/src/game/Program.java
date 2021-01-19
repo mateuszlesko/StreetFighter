@@ -21,7 +21,6 @@ public class Program{
 		    }
 		});
 		
-		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

@@ -102,14 +102,13 @@ public class CharacterSelectionState extends State{
 			selectOptionPlayer2(key.getKeyCode());
 		}
 
-		if(player1Chose && player2Chose && !noMoreLoad) {
-			
+		if(player1Chose && player2Chose) {
 			noMoreLoad = true;
 			HashMap<String,Fighter> fighters = new HashMap<String,Fighter>();
 			fighters.put("player1", characters[player1.getY()][player1.getX()]);
 			fighters.put("player2", characters[player2.getY()][player2.getX()]);
 			new ConfigHandler().writeToConfig(fighters);
-			stateManager.setState(2);
+			stateManager.setState(4);
 		}
 	}
 
@@ -124,7 +123,6 @@ public class CharacterSelectionState extends State{
 	}
 	
 	private void selectOptionPlayer1(int keyNumber) {
-		
 	
 		if(keyNumber == KeyEvent.VK_W) {
 			if(column > 0)
@@ -220,7 +218,7 @@ public class CharacterSelectionState extends State{
 		characters[2][0] = new Fighter("Balrog");
 		characters[2][1] = new Fighter("Vega");
 		characters[2][2] = new Fighter("Sagat");
-		characters[2][3] = new Fighter("Mbilson");
+		characters[2][3] = new Fighter("Mbison");
 		characters[3][0] = new Fighter("Ken");
 		characters[3][1] = new Fighter("ChunLi");
 		characters[3][2] = new Fighter("Zangief");

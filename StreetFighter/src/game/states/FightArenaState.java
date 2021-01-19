@@ -16,7 +16,7 @@ public class FightArenaState extends State {
 	
 	//private TileMap tileMap;
 	private BackgroundTheme background;
-	private Player player1;
+	//private Player player1;
 	private BufferedImage characterP1;
 	private BufferedImage characterP2;
 	
@@ -25,13 +25,11 @@ public class FightArenaState extends State {
 		stateManager = _stateManager;
 		background = new BackgroundTheme("/assets/graphics/arena/ryustage/ryustage.jpg",1);
 		background.setPosition(40/2,15/2);
-		player1 = new Player();
 		loaded = true;
 	}
 	@Override
 	public void initialize() {
 		// TODO Auto-generated method stub
-	
 	}
 
 	@Override
@@ -45,9 +43,6 @@ public class FightArenaState extends State {
 	@Override
 	public void update() {
 		HashMap<String,Fighter> hash = new ConfigHandler().readConfig();
-		
-		System.out.println(hash.get("player1"));
-		
 		background.update();
 		loaded = false;
 	}

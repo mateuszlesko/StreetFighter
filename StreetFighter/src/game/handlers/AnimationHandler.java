@@ -9,7 +9,7 @@ public class AnimationHandler {
 	private int numberOfFrames;
 	private int count;
 	private int delay;
-	private int timesPlayed;
+	private int timesPlayed;  
 	
 	public AnimationHandler() {
 		timesPlayed = 0;
